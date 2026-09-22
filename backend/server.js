@@ -613,6 +613,14 @@ app.disable("x-powered-by");
 
 app.use(userContext.userContextMiddleware);
 
+// Visitor counter — privacy-friendly: counts distinct fresh session
+// cookies only, dedupes on a one-way hash, stores aggregate numbers.
+const visitors = require("./visitors");
+app.use((req, res, next) => {
+  visitors.countVisitor(req);
+  next();
+});
+
 
 
 // ------------------------------------------------
@@ -1146,6 +1154,10 @@ const upload = multer({
 // ------------------------------------------------
 // RESOURCE METER, live AI usage snapshot (debugging aid)
 // ------------------------------------------------
+
+app.get("/api/visitors", (req, res) => {
+  return res.json(visitors.getVisitorStats());
+});
 
 app.get("/api/resource-meter", (req, res) => {
   return res.json({

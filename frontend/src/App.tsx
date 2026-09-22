@@ -41,6 +41,25 @@ function App() {
 
   const [switchingChat, setSwitchingChat] = useState(false);
 
+  // Anonymous visitor counter for the landing footer (self-hosted,
+  // aggregate numbers only — see backend/visitors.js)
+  const [visitorCount, setVisitorCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    chatApi
+      .visitorStats()
+      .then((stats) => {
+        if (!cancelled) setVisitorCount(stats.totalVisitors);
+      })
+      .catch(() => {
+        // counter unreachable — footer just shows without it
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   // ------------------------------------------------
   // PRIVACY MODEL: no accounts, no sessions, no sign-in. Every visitor
   // is a guest; nothing chat-related persists anywhere.
@@ -245,6 +264,8 @@ function App() {
 
                 <footer className="relative z-10 border-t border-white/[0.05] px-6 py-10 text-center">
                   <p className="text-xs tracking-wide text-gray-600">
+                    {visitorCount !== null &&
+                      `${visitorCount.toLocaleString()} ${visitorCount === 1 ? "conversation" : "conversations"} explored · `}
                     ChatScope · AI conversation intelligence, your data stays on
                     your device.
                   </p>

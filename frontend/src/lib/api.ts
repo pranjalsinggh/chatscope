@@ -456,6 +456,14 @@ export const chatApi = {
     return response.data;
   },
 
+  /** Aggregate, anonymous visitor count (self-hosted, no tracking). */
+  async visitorStats(): Promise<{ totalVisitors: number; todayVisitors: number }> {
+    const response = await http.get(`${API_BASE}/api/visitors`, {
+      timeout: 10000,
+    });
+    return response.data;
+  },
+
 
 
   /**
