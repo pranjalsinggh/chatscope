@@ -1,0 +1,22 @@
+# Render Blueprint — deploys ChatScope as a single Docker service.
+# The Dockerfile builds the frontend and serves it from the API port,
+# so one service, one origin, no CORS setup needed.
+#
+# Deploy: Render dashboard → New → Blueprint → pick this repo.
+# You'll be asked for GEMINI_API_KEY once (get a free key at
+# https://aistudio.google.com/apikey).
+
+services:
+  - type: web
+    name: chatscope
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: NODE_ENV
+        value: production
+      # Free tier has no persistent disk: wall posts + settings reset on
+      # redeploy (chat data is RAM-only by design, so it is unaffected).
