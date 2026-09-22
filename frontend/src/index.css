@@ -1,0 +1,530 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   CHATSCOPE DESIGN SYSTEM, dark liquid glass
+   One continuous environment: a fixed animated background sits behind
+   the whole app; surfaces are layered glass with soft depth.
+------------------------------------------------------------------ */
+
+@theme {
+  --font-sans: "Red Rose", ui-serif, Georgia, serif;
+
+  --color-void: #07060c;
+  --color-abyss: #0b0913;
+
+  --color-glow-purple: #a855f7;
+  --color-glow-pink: #ec4899;
+  --color-glow-blue: #60a5fa;
+
+  --animate-gradient-pan: gradient-pan 9s ease-in-out infinite;
+  --animate-float-slow: float-slow 7s ease-in-out infinite;
+  --animate-float-slower: float-slow 10s ease-in-out infinite;
+}
+
+/* ------------------------------------------------
+   BASE
+------------------------------------------------ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Hard-block horizontal panning: decorative parallax orbs and chart
+     tooltips can extend past the viewport, but must never move the page. */
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  min-width: 300px;
+  background-color: #07060c;
+  color: #f4f2fa;
+  font-family: "Red Rose", ui-serif, Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* clip (not hidden): hidden would make body a scroll container and
+     silently break position: sticky (the iceberg section needs it). */
+  overflow-x: clip;
+}
+
+::selection {
+  background: rgba(168, 85, 247, 0.35);
+  color: #ffffff;
+}
+
+/* Keep recharts labels inside the Red Rose type system */
+.recharts-wrapper text,
+.recharts-tooltip-wrapper text {
+  font-family: "Red Rose", ui-serif, Georgia, serif;
+}
+
+/* ------------------------------------------------
+   FOCUS / ACCESSIBILITY
+------------------------------------------------ */
+
+:focus-visible {
+  outline: 2px solid rgba(196, 132, 252, 0.7);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ------------------------------------------------
+   SCROLLBAR
+------------------------------------------------ */
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(168, 85, 247, 0.35) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(168, 85, 247, 0.35),
+    rgba(96, 165, 250, 0.3)
+  );
+  border-radius: 999px;
+  border: 2px solid #07060c;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(168, 85, 247, 0.6),
+    rgba(96, 165, 250, 0.55)
+  );
+}
+
+/* ------------------------------------------------
+   ACCENT TONES (personalization)
+   ------------------------------------------------
+   One CSS-variable layer: setting html[data-accent] remaps the
+   --color-purple-* ramp that Tailwind's purple-200/300/400/500
+   utilities compile to. "purple" (the default, attribute absent) keeps
+   the exact stock palette, pixel-identical to the classic look.
+------------------------------------------------ */
+
+html[data-accent="blue"] {
+  --color-purple-200: oklch(88% 0.055 240);
+  --color-purple-300: oklch(80% 0.105 240);
+  --color-purple-400: oklch(71% 0.16 245);
+  --color-purple-500: oklch(63% 0.19 250);
+}
+
+html[data-accent="pink"] {
+  --color-purple-200: oklch(90% 0.05 350);
+  --color-purple-300: oklch(83% 0.11 350);
+  --color-purple-400: oklch(72% 0.16 350);
+  --color-purple-500: oklch(65% 0.2 350);
+}
+
+html[data-accent="emerald"] {
+  --color-purple-200: oklch(89% 0.06 165);
+  --color-purple-300: oklch(82% 0.12 165);
+  --color-purple-400: oklch(72% 0.15 165);
+  --color-purple-500: oklch(64% 0.16 166);
+}
+
+/* ------------------------------------------------
+   LIQUID GLASS SURFACES
+   Hierarchy: cards are quiet translucent panels; truly floating
+   layers (navbar, sidebar, drawer, dropzone) add backdrop blur.
+------------------------------------------------ */
+
+.glass-card {
+  position: relative;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+    rgba(13, 11, 20, 0.55);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.06) inset,
+    0 20px 45px -30px rgba(0, 0, 0, 0.8);
+  transition:
+    border-color 0.35s ease,
+    background-color 0.35s ease,
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.glass-card-hover:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.08) inset,
+    0 28px 60px -32px rgba(0, 0, 0, 0.9),
+    0 0 40px -18px rgba(168, 85, 247, 0.35);
+}
+
+/* Light sweep across the card on hover, background-position only,
+   clipped by the pseudo-element's own inherited radius. */
+.glass-card-hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+      105deg,
+      transparent 42%,
+      rgba(255, 255, 255, 0.07) 50%,
+      transparent 58%
+    )
+    no-repeat;
+  background-size: 250% 100%;
+  background-position: 130% 0;
+  opacity: 0;
+  transition:
+    background-position 1s ease,
+    opacity 0.4s ease;
+}
+
+.glass-card-hover:hover::after {
+  background-position: -130% 0;
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .glass-card-hover::after {
+    display: none;
+  }
+}
+
+.glass-panel {
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background:
+    linear-gradient(165deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02) 55%),
+    rgba(12, 10, 19, 0.62);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.09) inset,
+    0 30px 70px -35px rgba(0, 0, 0, 0.85);
+}
+
+/* Solid glass: identical look over the dark environment, but without the
+   per-frame backdrop re-sampling, use where nothing visually complex
+   sits beneath (sidebar rail, floating chips). Big scroll-perf win. */
+.glass-panel--solid {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background:
+    linear-gradient(165deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02) 55%),
+    rgba(13, 11, 21, 0.88);
+}
+
+/* Dropdown menu surface: floating menus overlap charts and colorful
+   cards, so the base is far more opaque than .glass-panel while the
+   blur, border and shadow keep the liquid-glass identity.
+   Pair as: className="glass-panel glass-menu absolute ..." */
+.glass-menu {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background:
+    linear-gradient(165deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02) 55%),
+    rgba(11, 9, 18, 0.93);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.09) inset,
+    0 24px 60px -18px rgba(0, 0, 0, 0.95);
+}
+
+.glass-chip {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.04)
+  );
+}
+
+/* Thin luminous top edge used on hero-level surfaces */
+.glass-sheen::before {
+  content: "";
+  position: absolute;
+  inset: 0 12% auto 12%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* ------------------------------------------------
+   THE WALL, landing marquee
+   Track is duplicated in DOM; translating -50% loops seamlessly.
+------------------------------------------------ */
+
+@keyframes wall-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.wall-marquee-track {
+  animation: wall-marquee 60s linear infinite;
+}
+
+.wall-marquee-mask:hover .wall-marquee-track {
+  animation-play-state: paused;
+}
+
+.wall-marquee-mask {
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wall-marquee-track {
+    animation: none;
+    overflow-x: auto;
+  }
+}
+
+/* ------------------------------------------------
+   ICEBERG — rising bubbles inside the sticky dive scene
+------------------------------------------------ */
+
+@keyframes ice-bubble {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.45;
+  }
+  85% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-64vh) scale(1.5);
+    opacity: 0;
+  }
+}
+
+.ice-bubble {
+  animation-name: ice-bubble;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ice-bubble {
+    animation: none;
+    opacity: 0.2;
+  }
+}
+
+/* Iceberg extras: twinkling stars, waterline shimmer, god-ray sway */
+
+@keyframes ice-twinkle {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.85; }
+}
+
+.ice-star {
+  animation: ice-twinkle 3.4s ease-in-out infinite;
+}
+
+@keyframes ice-ray-sway {
+  0%, 100% { opacity: 0.55; transform: translateX(0) rotate(var(--ray-rot, 0deg)); }
+  50% { opacity: 1; transform: translateX(14px) rotate(var(--ray-rot, 0deg)); }
+}
+
+.ice-ray {
+  animation-name: ice-ray-sway;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  transform-origin: top center;
+}
+
+@keyframes ice-waterline {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+
+.ice-waterline {
+  animation: ice-waterline 4.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ice-star, .ice-ray, .ice-waterline {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------
+   TYPOGRAPHY HELPERS
+------------------------------------------------ */
+
+.gradient-text {
+  background: linear-gradient(
+    100deg,
+    #c084fc 0%,
+    #f472b6 30%,
+    #93c5fd 65%,
+    #c084fc 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-pan 9s ease-in-out infinite;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+/* Subtle film grain over the environment */
+.noise-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* ------------------------------------------------
+   KEYFRAMES
+------------------------------------------------ */
+
+@keyframes gradient-pan {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer-line {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+  animation: shimmer 2.2s infinite;
+}
+
+/* ------------------------------------------------
+   REDUCED MOTION
+------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .gradient-text {
+    animation: none;
+  }
+
+  .shimmer-line::after {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------
+   PRINT / PDF REPORT
+------------------------------------------------ */
+
+@media print {
+  nav,
+  header,
+  #upload,
+  aside,
+  .print\:hidden,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  * {
+    color: #111 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    backdrop-filter: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .gradient-text {
+    background: none !important;
+    -webkit-text-fill-color: #111 !important;
+    color: #111 !important;
+  }
+
+  .glass-card,
+  .glass-panel,
+  .rounded-2xl,
+  .rounded-xl,
+  .rounded-3xl {
+    border: 1px solid #ddd !important;
+    background: white !important;
+    break-inside: avoid;
+  }
+}

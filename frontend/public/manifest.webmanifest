@@ -1,0 +1,19 @@
+{
+  "name": "ChatScope — AI Conversation Intelligence",
+  "short_name": "ChatScope",
+  "description": "Upload a WhatsApp chat and discover patterns, facts, trends and hidden insights — powered by data science and AI.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#07060c",
+  "theme_color": "#07060c",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

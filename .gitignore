@@ -1,0 +1,33 @@
+# ---------------------------------------------------------
+# ChatScope — never commit secrets or personal chat content
+# ---------------------------------------------------------
+
+# Dependencies
+node_modules/
+
+# Secrets / environment (any .env variant at any depth; examples stay)
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+frontend/.env.local
+frontend/.env.*
+!frontend/.env.example
+
+# Runtime data — contains personal chat content + API-learned state
+backend/chat_state.json
+backend/chat_state.json.tmp
+backend/data/
+backend/uploads/
+
+# Logs
+*.log
+
+# Build output
+frontend/dist/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db

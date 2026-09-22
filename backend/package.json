@@ -1,0 +1,25 @@
+{
+  "name": "chatscope-backend",
+  "version": "1.0.0",
+  "description": "ChatScope WhatsApp chat analytics backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon --ignore uploads/ --ignore data/ server.js",
+    "test": "node tests/parser.test.js && node tests/analytics.test.js && node tests/retrieval.test.js && node tests/privacy.test.js && node tests/redact.test.js && node tests/settings.test.js && node tests/persona.test.js && node tests/wall.test.js",
+    "tunnel": "cloudflared tunnel --url http://localhost:5000",
+    "smoke": "node scripts/smoke.js"
+  },
+  "dependencies": {
+    "@google/genai": "^1.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^5.0.0",
+    "express-rate-limit": "^8.7.0",
+    "helmet": "^8.3.0",
+    "multer": "^2.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  }
+}

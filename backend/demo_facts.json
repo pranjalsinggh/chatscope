@@ -1,0 +1,59 @@
+{
+  "facts": {
+    "Aarav": [
+      {
+        "category": "place",
+        "fact": "Aarav took a trip to Goa and loved the Baga beach evenings",
+        "evidence": "Goa was legendary, Baga beach evenings"
+      },
+      {
+        "category": "birthday",
+        "fact": "Diya's birthday is on 14 November — Aarav wished her in advance",
+        "evidence": "Happy birthday in advance!!"
+      },
+      {
+        "category": "food",
+        "fact": "Aarav loves cooking pasta on weekends",
+        "evidence": "I love cooking pasta on weekends"
+      },
+      {
+        "category": "work",
+        "fact": "Aarav is thinking about buying a new laptop and prefers a MacBook",
+        "evidence": "Buy a MacBook, worth it"
+      },
+      {
+        "category": "hobby",
+        "fact": "Aarav walks 10k steps and goes to the gym at 6am",
+        "evidence": "Gym at 6 tomorrow?"
+      }
+    ],
+    "Diya": [
+      {
+        "category": "birthday",
+        "fact": "Diya's birthday is on 14 November",
+        "evidence": "My birthday is on 14 November btw"
+      },
+      {
+        "category": "food",
+        "fact": "Diya is a big pani puri fan and rates it above pizza",
+        "evidence": "Pani puri >>> pizza, always"
+      },
+      {
+        "category": "place",
+        "fact": "Diya knows Manali in December is freezing",
+        "evidence": "Manali in December is freezing yaar"
+      },
+      {
+        "category": "work",
+        "fact": "Diya's assignment is only half done",
+        "evidence": "Assignment is half done only"
+      },
+      {
+        "category": "relationship",
+        "fact": "Diya heads home to family on weekends",
+        "evidence": "Coming home next weekend only"
+      }
+    ]
+  },
+  "extractedAt": "2025-01-01T00:00:00.000Z"
+}

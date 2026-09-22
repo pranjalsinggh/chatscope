@@ -1,0 +1,26 @@
+# Keep secrets, personal chat data and caches out of the build context
+.git
+.gitignore
+
+# Dependencies (installed fresh inside the image)
+node_modules
+frontend/node_modules
+backend/node_modules
+
+# Secrets
+.env
+backend/.env
+frontend/.env.local
+
+# Runtime data — must not be baked into images
+backend/chat_state.json
+backend/data
+backend/uploads
+backend/embeddings_cache.json
+backend/retrieval_memory.json
+
+# Logs
+*.log
+
+# Local build output (rebuilt inside the image)
+frontend/dist
