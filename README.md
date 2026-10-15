@@ -11,7 +11,8 @@ ChatScope is an AI-powered WhatsApp conversation intelligence platform. Export a
 - **Robust WhatsApp parser**: 12h/24h time, iOS bracketed format, multiline messages, Hindi/Unicode senders, media/deleted/link/emoji detection.
 - **Analytics dashboard**: overview, activity by date/hour/day, monthly trends, response times (mean + median), conversation starters, who-replies-to-whom interaction flows, word cloud, per-person signature words, emojis.
 - **Ask Your Chat**: streaming, evidence-backed answers with confidence badges. Statistical questions ("who talks more?") are answered deterministically with exact numbers at zero AI cost.
-- **Multi-stage retrieval**: inverted index, BM25, morphology, fuzzy matching, corpus-derived concept expansion, Q&A thread stitching, negation handling, and optional free-tier semantic embeddings. Gemini-assisted query reformulation as a last resort.
+- **Multi-stage retrieval**: inverted index, BM25, morphology, fuzzy matching, corpus-derived concept expansion, Q&A thread stitching, negation handling, and optional free-tier semantic embeddings. Gemini-assisted query reformulation as a last<img width="1919" height="937" alt="Screenshot 2026-10-16 005049" src="https://github.com/user-attachments/assets/08753c71-6192-47f4-8316-1f8be4efe7ae" />
+ resort.
 - **Self-improving**: 👍/👎 feedback tunes retrieval scoring; successful query patterns are learned and reused (corpus-scoped, so one chat never contaminates another).
 - **Message browser**: search and filter the raw conversation.
 - **PDF export**: print-optimized report of the whole dashboard.
